@@ -3,6 +3,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 df2 = pd.read_csv("./model/tmdb.csv", encoding = 'utf-8')
+df2 = df2.reset_index()
+
 class RECOMMEND():
     def __init__(self, vectorizer):
         self.vectorizer = vectorizer # Tf ,count
@@ -14,7 +16,7 @@ class RECOMMEND():
         cos_sim = cosine_similarity(count_matrix, count_matrix)
 
         indices = pd.Series(df2.index, index=df2['title'])
-        
+
         idx = indices[title]
 
         sim_scores = list(enumerate(cos_sim[idx]))
@@ -28,8 +30,8 @@ class RECOMMEND():
         return_df = pd.DataFrame(columns = ['Title', 'Year'])
         return_df['Title'] = tit
         return_df['Year'] = dat
-        print(return_df)
+        return return_df
 
-recommend = RECOMMEND(TfidfVectorizer)
-df = recommend.get_recommendation('Harry Potter and the Half-Blood Prince')
-print(df)
+# recommend = RECOMMEND(TfidfVectorizer)
+# df = recommend.get_recommendation('Harry Potter and the Half-Blood Prince')
+# print(df)
